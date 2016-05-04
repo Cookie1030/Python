@@ -1,0 +1,28 @@
+1、CentOS安装Python的依赖包
+
+yum groupinstall "Development tools"
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+
+2、下载Python3.4的源码包并编译
+cd /srv/
+wget https://www.python.org/ftp/python/3.4.1/Python-3.4.1.tgz
+tar xf Python-3.4.1.tgz
+cd Python-3.4.1
+./configure --prefix=/usr --enable-shared
+make
+make install
+
+3、在运行Python之前需要配置库：
+
+echo /usr/lib >> /etc/ld.so.conf.d/local.conf
+ldconfig
+
+4、运行演示：
+
+python3 --version
+Python 3.4.1
+
+5、删除编译Python时所需要的库
+
+yum groupremove "Development tools" --remove-leaves
+yum remove zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel --remove-leaves
